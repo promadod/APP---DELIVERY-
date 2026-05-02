@@ -383,7 +383,7 @@ class _VitrineScreenState extends State<VitrineScreen> {
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: const BoxDecoration(
-                                        color: Colors.white,
+                                        color: Colors.transparent,
                                         borderRadius: BorderRadius.vertical(
                                           top: Radius.circular(14),
                                         ),
