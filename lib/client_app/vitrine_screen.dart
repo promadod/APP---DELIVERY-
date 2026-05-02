@@ -332,12 +332,12 @@ class _VitrineScreenState extends State<VitrineScreen> {
                             if (prod.imagemUrl != null) {
                               widgetImagem = Image.network(
                                 prod.imagemUrl!,
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   if (caminhoImagem.isNotEmpty) {
                                     return Image.asset(
                                       caminhoImagem,
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                       errorBuilder: (ctx, err, stack) =>
                                           iconeFallback,
                                     );
@@ -349,7 +349,7 @@ class _VitrineScreenState extends State<VitrineScreen> {
                               if (caminhoImagem.isNotEmpty) {
                                 widgetImagem = Image.asset(
                                   caminhoImagem,
-                                  fit: BoxFit.contain,
+                                  fit: BoxFit.cover,
                                   errorBuilder: (ctx, err, stack) =>
                                       iconeFallback,
                                 );
