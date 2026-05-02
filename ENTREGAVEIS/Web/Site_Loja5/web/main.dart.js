@@ -7541,14 +7541,13 @@ afA:function afA(){},
 o0:function o0(a,b,c){this.c=a
 this.d=b
 this.a=c},
-CX:function CX(a,b,c,d,e,f,g){var _=this
-_.e=a
-_.f=b
-_.r=c
-_.w=d
-_.x=e
-_.y=f
-_.z=g
+CX:function CX(a,b,c,d,e,f){var _=this
+_.f=a
+_.r=b
+_.w=c
+_.x=d
+_.y=e
+_.z=f
 _.Q="DINHEIRO"
 _.at=_.as=!1
 _.ax=!0
@@ -41524,7 +41523,7 @@ A.aaf.prototype={}
 A.afA.prototype={}
 A.o0.prototype={
 ai(){var s=$.av()
-return new A.CX("The Flash Gas",new A.bm(null,t.am),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s))}}
+return new A.CX(new A.bm(null,t.am),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s),new A.lh(B.d8,s))}}
 A.CX.prototype={
 av(){this.aN()
 this.ww()
@@ -41621,7 +41620,7 @@ s.toString
 A.hJ(s,!1).vj(!0)
 r.c.aa(t.Pu).f.kI(A.ld(q,q,q,B.bx,B.bE,B.z,q,B.VH,q,B.cO,q,q,q,q,q,q,q,q,q,q))}},
 aje(){var s=null
-A.xj(new A.o7("21986855874"))
+A.xj(new A.o7("21995983636"))
 this.c.aa(t.Pu).f.kI(A.ld(s,s,s,B.m,B.bE,B.z,s,B.VA,s,B.cO,s,s,s,s,s,s,s,s,s,s))},
 un(){var s=0,r=A.M(t.H),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6
 var $async$un=A.N(function(a7,a8){if(a7===1){o.push(a8)
@@ -41733,9 +41732,9 @@ m=B.d.aH(127.5)
 l=A.kc(A.ak(m,B.m.v()>>>16&255,B.m.v()>>>8&255,B.m.v()&255),1)
 k=A.cS(12)
 j=A.el(A.c([A.hz(B.Gt,B.m,f,f),B.lo,B.VM],n),B.Q,B.X,B.V,0)
-i=A.bY("Benefici\xe1rio: "+g.e,f,f,f,B.T7,f,f)
+i=A.bY("Benefici\xe1rio: Debora Nazareth",f,f,f,B.T7,f,f)
 h=A.cS(8)
-p.push(A.dH(f,A.fq(A.c([j,B.zj,i,B.zj,A.el(A.c([A.m9(A.dH(f,A.bY("21986855874",f,f,f,A.dS(f,f,B.m,f,f,f,f,f,f,f,f,15,f,f,B.dx,f,f,!0,f,f,f,f,f,f,f,f),B.dV,f),B.v,f,f,new A.c6(B.DL,f,f,h,f,f,B.a7),f,f,f,B.Fz,f,f,f),1),B.lo,A.aID(B.GA,B.Vt,g.gajd(),A.atK(f,f,A.ak(51,B.m.v()>>>16&255,B.m.v()>>>8&255,B.m.v()&255),f,f,f,0,f,f,B.m,f,f,f,f,f,new A.aN(A.ak(m,B.m.v()>>>16&255,B.m.v()>>>8&255,B.m.v()&255),1,B.t,-1),f,f,f,f))],n),B.Q,B.X,B.V,0)],n),B.Q,B.X,B.V),B.v,f,f,new A.c6(o,f,l,k,f,f,B.a7),f,f,B.Fy,B.FF,f,f,f))}if(g.Q==="DINHEIRO")p.push(new A.ba(B.Fw,A.Oe(g.z,g.pj("Troco para quanto? (Ex: 50.00)",B.Gi),B.QZ,1,f,B.bF,f),f))
+p.push(A.dH(f,A.fq(A.c([j,B.zj,i,B.zj,A.el(A.c([A.m9(A.dH(f,A.bY("21995983636",f,f,f,A.dS(f,f,B.m,f,f,f,f,f,f,f,f,15,f,f,B.dx,f,f,!0,f,f,f,f,f,f,f,f),B.dV,f),B.v,f,f,new A.c6(B.DL,f,f,h,f,f,B.a7),f,f,f,B.Fz,f,f,f),1),B.lo,A.aID(B.GA,B.Vt,g.gajd(),A.atK(f,f,A.ak(51,B.m.v()>>>16&255,B.m.v()>>>8&255,B.m.v()&255),f,f,f,0,f,f,B.m,f,f,f,f,f,new A.aN(A.ak(m,B.m.v()>>>16&255,B.m.v()>>>8&255,B.m.v()&255),1,B.t,-1),f,f,f,f))],n),B.Q,B.X,B.V,0)],n),B.Q,B.X,B.V),B.v,f,f,new A.c6(o,f,l,k,f,f,B.a7),f,f,B.Fy,B.FF,f,f,f))}if(g.Q==="DINHEIRO")p.push(new A.ba(B.Fw,A.Oe(g.z,g.pj("Troco para quanto? (Ex: 50.00)",B.Gi),B.QZ,1,f,B.bF,f),f))
 p.push(B.ia)
 p.push(A.Oe(g.y,g.pj("Observa\xe7\xe3o do Pedido",B.Gl),f,1,f,B.bF,f))
 r=A.dH(f,A.fq(p,B.Q,B.X,B.V),B.v,f,f,new A.c6(B.bz,f,r,q,f,f,B.a7),f,f,f,B.jB,f,f,f)
