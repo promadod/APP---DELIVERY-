@@ -46,7 +46,14 @@ class _VitrineScreenState extends State<VitrineScreen> {
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);
         setState(() {
-          produtosTodos = data.map((json) => Produto.fromJson(json)).toList();
+          // 1. Puxa os dados
+          var lista = data.map((json) => Produto.fromJson(json)).toList();
+          
+          // 2. A MÁGICA DA ORDENAÇÃO ALFABÉTICA
+          lista.sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase()));
+          
+          // 3. Salva no aplicativo
+          produtosTodos = lista;
           produtosFiltrados = produtosTodos;
           isLoading = false;
         });
