@@ -36,6 +36,11 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
   bool enviando = false;
   bool buscandoCliente = false;
 
+  bool fidelidadeAtiva = false;
+  Map<String, dynamic>? fidelidadeStatus;
+  bool usarPromocaoFidelidade = false;
+  double descontoFidelidade = 0;
+
   bool isDelivery = true;
   double valorEntrega = 5.00;
 
@@ -59,6 +64,34 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
     super.initState();
     _carregarDadosLocais();
     _buscarTaxaEntrega();
+    _buscarConfigFidelidade();
+  }
+
+  Future<void> _buscarConfigFidelidade() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          "${Config.baseUrl}/api/fidelidade/config/?loja_id=${Config.lojaId}",
+        ),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          fidelidadeAtiva = data['ativa'] == true;
+        });
+      }
+    } catch (e) {
+      print("Erro fidelidade config: $e");
+    }
+  }
+
+  void _atualizarDescontoFidelidade() {
+    if (!usarPromocaoFidelidade || fidelidadeStatus == null) {
+      descontoFidelidade = 0;
+      return;
+    }
+    final pct = (fidelidadeStatus!['desconto_pct'] as num?)?.toDouble() ?? 0;
+    descontoFidelidade = valorTotalProdutos * pct / 100;
   }
 
   Future<void> _buscarTaxaEntrega() async {
@@ -105,7 +138,12 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
         if (data['encontrou'] == true) {
           setState(() {
             _nomeController.text = data['nome'];
-            _enderecoController.text = data['endereco'];
+            _enderecoController.text = data['endereco'] ?? '';
+            if (data['fidelidade'] != null) {
+              fidelidadeStatus = Map<String, dynamic>.from(data['fidelidade']);
+              usarPromocaoFidelidade = false;
+              _atualizarDescontoFidelidade();
+            }
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -242,7 +280,9 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
     }
 
     double taxaFinal = isDelivery ? valorEntrega : 0.0;
-    double totalComTaxa = valorTotalProdutos + taxaFinal;
+    _atualizarDescontoFidelidade();
+    double totalComTaxa =
+        valorTotalProdutos + taxaFinal - descontoFidelidade;
     String enderecoFinal = isDelivery
         ? _enderecoController.text
         : "Retirada na Loja";
@@ -258,6 +298,7 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
       "itens": itensParaEnviar,
       "taxa_entrega": taxaFinal,
       "eh_entrega": isDelivery,
+      "usar_fidelidade": usarPromocaoFidelidade,
     };
 
     try {
@@ -376,7 +417,9 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
   @override
   Widget build(BuildContext context) {
     double taxaAtiva = isDelivery ? valorEntrega : 0.0;
-    double totalExibicao = valorTotalProdutos + taxaAtiva;
+    _atualizarDescontoFidelidade();
+    double totalExibicao =
+        valorTotalProdutos + taxaAtiva - descontoFidelidade;
 
     return Scaffold(
       backgroundColor: corFundoApp,
@@ -694,6 +737,83 @@ class _CarrinhoScreenState extends State<CarrinhoScreen> {
               ),
 
               const SizedBox(height: 25),
+
+              if (fidelidadeAtiva && fidelidadeStatus != null) ...[
+                const Padding(
+                  padding: EdgeInsets.only(left: 4, bottom: 8),
+                  child: Text(
+                    "Plano de Fidelidade",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: corFundoCard,
+                    border: Border.all(color: corAcento.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (fidelidadeStatus!['promocao_disponivel'] == true) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.card_giftcard, color: corAcento),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                "Promoção disponível! ${fidelidadeStatus!['desconto_pct']}% OFF",
+                                style: TextStyle(
+                                  color: corAcento,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Switch(
+                              value: usarPromocaoFidelidade,
+                              activeColor: corAcento,
+                              onChanged: (v) => setState(() {
+                                usarPromocaoFidelidade = v;
+                                _atualizarDescontoFidelidade();
+                              }),
+                            ),
+                          ],
+                        ),
+                        if (usarPromocaoFidelidade)
+                          Text(
+                            "Desconto: - R\$ ${descontoFidelidade.toStringAsFixed(2)}",
+                            style: const TextStyle(color: Colors.greenAccent),
+                          ),
+                      ] else ...[
+                        Text(
+                          "Progresso: ${fidelidadeStatus!['progresso']} / ${fidelidadeStatus!['meta']} "
+                          "${fidelidadeStatus!['tipo_meta'] == 'PONTOS' ? 'pontos' : 'produtos'}",
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                        const SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: ((fidelidadeStatus!['percentual_progresso'] as num?) ?? 0) / 100,
+                          backgroundColor: Colors.white12,
+                          color: corAcento,
+                          minHeight: 8,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          "${fidelidadeStatus!['percentual_progresso']}% até a próxima promoção de ${fidelidadeStatus!['desconto_pct']}%",
+                          style: TextStyle(color: corAcento, fontSize: 12),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 25),
+              ],
 
               // 4. BLOCO: PAGAMENTO E OBSERVAÇÕES
               const Padding(
